@@ -1,25 +1,13 @@
 ﻿using System;
+using PxBunny.Result.Internal;
 
 namespace PxBunny.Result;
 
-public class Result<TData>
+public sealed class Result<TData> : ResultBase<TData>
 {
-    private readonly TData? _data;
-    private readonly ErrorBase? _error;
+    private Result(TData data) : base(data) { }
 
-    private Result(TData data)
-    {
-        _data = data;
-        _error = null;
-    }
-
-    private Result(ErrorBase error)
-    {
-        _data = default;
-        _error = error;
-    }
-
-    private bool IsSuccess => _error is null;
+    private Result(ErrorBase error) : base(error) { }
 
     public static implicit operator Result<TData>(TData data) => new(data);
 
@@ -28,26 +16,21 @@ public class Result<TData>
     public TResult Match<TResult>(
         Func<TData, TResult> onSuccess,
         Func<ErrorBase, TResult> onFailure)
-        => IsSuccess ? onSuccess(_data!) : onFailure(_error!);
+        => IsSuccess ? onSuccess(Data!) : onFailure(Error!);
 }
 
-public class Result
+public sealed class Result : ResultBase<Unit>
 {
-    private readonly ErrorBase? _error;
+    private Result(Unit value) : base(value) { }
 
-    private Result(ErrorBase? error)
-    {
-        _error = error;
-    }
+    private Result(ErrorBase error) : base(error) { }
 
-    private bool IsSuccess => _error is null;
+    public static implicit operator Result(Unit value) => new(value);
 
     public static implicit operator Result(ErrorBase error) => new(error);
-
-    public static Result Success() => new(null);
 
     public TResult Match<TResult>(
         Func<TResult> onSuccess,
         Func<ErrorBase, TResult> onFailure)
-        => IsSuccess ? onSuccess() : onFailure(_error!);
+        => IsSuccess ? onSuccess() : onFailure(Error!);
 }

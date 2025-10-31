@@ -24,10 +24,7 @@ public class ErrorsGenerator : IIncrementalGenerator
     {
         var (compilation, list) = input;
 
-        if (!list.Any())
-        {
-            return;
-        }
+        if (!list.Any()) return;
 
         var namespaceList = list
             .Select(node => compilation.GetSemanticModel(node.SyntaxTree).GetDeclaredSymbol(node))
