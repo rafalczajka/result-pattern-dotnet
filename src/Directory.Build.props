@@ -1,0 +1,11 @@
+﻿<Project>
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <AssemblyName>PxBunny.Result</AssemblyName>
+    <RootNamespace>PxBunny.Result</RootNamespace>
+  </PropertyGroup>
+
+</Project>

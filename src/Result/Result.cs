@@ -1,6 +1,8 @@
-﻿namespace DaeNe.Result;
+﻿using System;
 
-public readonly struct Result<TData>
+namespace PxBunny.Result;
+
+public class Result<TData>
 {
     private readonly TData? _data;
     private readonly ErrorBase? _error;
@@ -8,7 +10,7 @@ public readonly struct Result<TData>
     private Result(TData data)
     {
         _data = data;
-        _error = default;
+        _error = null;
     }
 
     private Result(ErrorBase error)
@@ -29,7 +31,7 @@ public readonly struct Result<TData>
         => IsSuccess ? onSuccess(_data!) : onFailure(_error!);
 }
 
-public readonly struct Result
+public class Result
 {
     private readonly ErrorBase? _error;
 

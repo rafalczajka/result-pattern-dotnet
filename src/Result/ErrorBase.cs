@@ -1,4 +1,4 @@
-﻿namespace DaeNe.Result;
+﻿namespace PxBunny.Result;
 
 public abstract class ErrorBase(string message)
 {

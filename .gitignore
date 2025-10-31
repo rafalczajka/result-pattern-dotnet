@@ -14,5 +14,6 @@ Desktop.ini
 .DS_Store
 
 **/*.Development.json
-**/*.dev.json
 **/local.settings.json
+
+TODOs.md
