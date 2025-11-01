@@ -20,10 +20,8 @@ public sealed class Result<TData> : ResultBase<TData>
         onFailure(Error!);
     }
 
-    public TResult Match<TResult>(
-        Func<TData, TResult> onSuccess,
-        Func<ErrorBase, TResult> onFailure)
-        => IsSuccess ? onSuccess(Data!) : onFailure(Error!);
+    public TResult Match<TResult>(Func<TData, TResult> onSuccess, Func<ErrorBase, TResult> onFailure) =>
+        IsSuccess ? onSuccess(Data!) : onFailure(Error!);
 
     public static implicit operator Result<TData>(TData data) => new(data);
 
@@ -49,10 +47,8 @@ public sealed class Result : ResultBase<Unit>
         onFailure(Error!);
     }
 
-    public TResult Match<TResult>(
-        Func<TResult> onSuccess,
-        Func<ErrorBase, TResult> onFailure)
-        => IsSuccess ? onSuccess() : onFailure(Error!);
+    public TResult Match<TResult>(Func<TResult> onSuccess, Func<ErrorBase, TResult> onFailure) =>
+        IsSuccess ? onSuccess() : onFailure(Error!);
 
     public static implicit operator Result(Unit value) => new(value);
 
