@@ -8,6 +8,7 @@
     <RootNamespace>PxBunny.Result</RootNamespace>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
 </Project>
