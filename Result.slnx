@@ -8,6 +8,7 @@
     <File Path="nuget.config" />
     <File Path="README.md" />
     <File Path="Directory.Build.props" />
+    <File Path=".gitattributes" />
   </Folder>
   <Folder Name="/samples/">
     <Project Path="samples\SimpleApp\SimpleApp.csproj" />
