@@ -34,7 +34,7 @@ public sealed class Result : ResultBase<Unit>
 
     private Result(ErrorBase error) : base(error) { }
 
-    public static Unit Success() => Unit.Value;
+    public static Result Success() => new(Unit.Value);
 
     public void Switch(Action onSuccess, Action<ErrorBase> onFailure)
     {

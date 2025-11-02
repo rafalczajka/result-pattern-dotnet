@@ -10,7 +10,7 @@ namespace PxBunny.Result;
 using Input = (Compilation Compilation, ImmutableArray<ClassDeclarationSyntax> List);
 
 [Generator]
-internal class ErrorsGenerator : IIncrementalGenerator
+internal sealed class ErrorsGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
