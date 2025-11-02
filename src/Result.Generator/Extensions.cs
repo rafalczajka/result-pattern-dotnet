@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -10,29 +10,14 @@ internal static class Extensions
 {
     public static string AddIndent(this string text, int indent)
     {
-        using var reader = new StringReader(text);
-        var newText = "";
+        if (indent < 0)
+            throw new ArgumentOutOfRangeException(nameof(indent), "indent is less than zero");
 
-        for (var i = 0; ; i++)
-        {
-            var line = reader.ReadLine();
+        if (string.IsNullOrWhiteSpace(text))
+            return text;
 
-            if (line is null)
-            {
-                break;
-            }
-
-            if (line.Length == 0)
-            {
-                newText += '\n';
-                continue;
-            }
-
-            var newLine = $"{new string(' ', indent)}{line}";
-            newText += i == 0 ? newLine : $"\n{newLine}";
-        }
-
-        return newText;
+        var indentStr = new string(' ', indent);
+        return $"{indentStr}{text.Replace("\n", $"\n{indentStr}")}";
     }
 
     public static string GetFullName(this ClassDeclarationSyntax node, SemanticModel model)

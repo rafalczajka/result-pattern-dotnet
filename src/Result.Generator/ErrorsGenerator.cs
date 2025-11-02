@@ -68,8 +68,8 @@ internal class ErrorsGenerator : IIncrementalGenerator
 
     private static string GenerateMethod(IList<string> parameters, string fullName, string className)
     {
-        var methodParametersString = string.Join(", ", parameters);
-        var passedParametersString = string.Join(", ", parameters.Select(parameter => parameter.Split(' ')[1]));
-        return $"public static {fullName} {className}({methodParametersString}) {{ return new {fullName}({passedParametersString}); }}";
+        var methodParametersStr = string.Join(", ", parameters);
+        var passedParametersStr = string.Join(", ", parameters.Select(parameter => parameter.Split(' ').Last()));
+        return $"public static {fullName} {className}({methodParametersStr}) {{ return new {fullName}({passedParametersStr}); }}";
     }
 }
