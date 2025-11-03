@@ -5,7 +5,7 @@ using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace PxBunny.Result;
+namespace PxBunny.Result.Generator;
 
 using Input = (Compilation Compilation, ImmutableArray<ClassDeclarationSyntax> List);
 
