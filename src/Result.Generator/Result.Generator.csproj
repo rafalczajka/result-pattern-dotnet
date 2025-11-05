@@ -4,16 +4,21 @@
     <AssemblyName>$(PackageRootNamespace).Generator</AssemblyName>
     <RootNamespace>$(PackageRootNamespace).Generator</RootNamespace>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-    <Version>0.0.0.0</Version>
+    <Version>0.0.0</Version>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
   </ItemGroup>
   
   <ItemGroup>
     <AssemblyMetadata Include="ErrorsNamespace" Value="$(PackageRootNamespace)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Analyzer Include="$(OutputPath)$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" />
   </ItemGroup>
 
 </Project>
