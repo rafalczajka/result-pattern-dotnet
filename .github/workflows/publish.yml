@@ -39,7 +39,7 @@ jobs:
         run: dotnet build -c Release --no-restore
 
       - name: Pack
-        run: dotnet pack **/${{ inputs.project }}.csproj -c Release --no-build
+        run: dotnet pack ${{ env.PROJECT_DIRECTORY }}/${{ inputs.project }}.csproj -c Release --no-build
 
       - name: Publish NuGet package
         run: >
