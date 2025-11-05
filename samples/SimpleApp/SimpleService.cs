@@ -1,5 +1,4 @@
 ﻿using PxBunny.Result;
-using PxBunny.Result.Generator;
 
 namespace SimpleApp;
 

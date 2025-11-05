@@ -1,25 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace PxBunny.Result.Generator;
+namespace PxBunny.Result.Generator.Extensions;
 
-internal static class Extensions
+internal static class ClassDeclarationSyntaxExtensions
 {
-    public static string AddIndent(this string text, int indent)
-    {
-        if (indent < 0)
-            throw new ArgumentOutOfRangeException(nameof(indent), "indent is less than zero");
-
-        if (string.IsNullOrWhiteSpace(text))
-            return text;
-
-        var indentStr = new string(' ', indent);
-        return $"{indentStr}{text.Replace("\n", $"\n{indentStr}")}";
-    }
-
     public static string GetFullName(this ClassDeclarationSyntax node, SemanticModel model)
     {
         var symbol = model.GetDeclaredSymbol(node);
