@@ -3,6 +3,10 @@ name: Publish 'Result' Package
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   publish:
     uses: ./.github/workflows/publish.yml
