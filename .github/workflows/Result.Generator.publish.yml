@@ -1,0 +1,10 @@
+name: Publish 'Result.Generator' Package
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    uses: ./.github/workflows/publish.yml
+    with:
+      project: Result.Generator

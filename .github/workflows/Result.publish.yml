@@ -1,0 +1,10 @@
+name: Publish 'Result' Package
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    uses: ./.github/workflows/publish.yml
+    with:
+      project: Result

@@ -1,0 +1,49 @@
+name: Publish NuGet to GitHub Packages
+
+on:
+  workflow_call:
+    inputs:
+      project:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  pack-nuget:
+    name: Pack NuGet
+    runs-on: ubuntu-latest
+
+    env:
+      NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      SOURCE: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+      PATH: src/${{ inputs.project }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          source-url: ${{ env.SOURCE }}
+
+      - name: Restore Dependencies
+        working-directory: ${{ env.PATH }}
+        run: dotnet restore
+
+      - name: Build
+        working-directory: ${{ env.PATH }}
+        run: dotnet build -c Release --no-restore
+
+      - name: Pack
+        run: dotnet pack **/${{ inputs.project }}.csproj -c Release --no-build
+
+      - name: Publish NuGet package
+        run: >
+          dotnet nuget push **/Release/**/*.nupkg
+          --source ${{ env.SOURCE }}
+          --api-key ${{ env.NUGET_AUTH_TOKEN }}
+          --skip-duplicate
