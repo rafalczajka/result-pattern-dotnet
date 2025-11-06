@@ -10,10 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(MSBuildThisFileDirectory)..\src\Result.Generator\Result.Generator.csproj"
-                      OutputItemType="Analyzer"
-                      ReferenceOutputAssembly="false" />
     <PackageReference Include="PxBunny.Result" />
+    <PackageReference Include="PxBunny.Result.Generator" />
   </ItemGroup>
 
 </Project>
