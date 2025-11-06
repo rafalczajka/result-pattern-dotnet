@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis;
@@ -48,15 +47,11 @@ internal sealed class ErrorsGenerator : IIncrementalGenerator
         context.AddSource("Errors.g.cs", source);
     }
 
-    private static bool Predicate(SyntaxNode node, CancellationToken cancellationToken)
-    {
-        return node is ClassDeclarationSyntax classDeclaration && classDeclaration.IsErrorType();
-    }
+    private static bool Predicate(SyntaxNode node, CancellationToken _) =>
+        node is ClassDeclarationSyntax classDeclaration && classDeclaration.IsErrorType();
 
-    private static ClassDeclarationSyntax Transform(GeneratorSyntaxContext context, CancellationToken cancellationToken)
-    {
-        return (ClassDeclarationSyntax)context.Node;
-    }
+    private static ClassDeclarationSyntax Transform(GeneratorSyntaxContext context, CancellationToken _) =>
+        (ClassDeclarationSyntax)context.Node;
 
     private static string GenerateClassBody(Input input)
     {
@@ -65,17 +60,17 @@ internal sealed class ErrorsGenerator : IIncrementalGenerator
         return string.Join("\n\n", list.Select(node =>
         {
             var fullName = node.GetFullName(compilation.GetSemanticModel(node.SyntaxTree));
-            var className = fullName.Split('.').Last();
+            var className = node.Identifier.Text;
             var parameters = node.GetConstructorParameters();
-            var methods = parameters.Select(p => GenerateMethod(p.ToList(), fullName, className));
+            var methods = parameters.Select(p => GenerateMethod(fullName, className, p));
             return string.Join("\n\n", methods);
         }));
     }
 
-    private static string GenerateMethod(IList<string> parameters, string fullName, string className)
+    private static string GenerateMethod(string fullTypeName, string methodName, SeparatedSyntaxList<ParameterSyntax> parameters)
     {
-        var methodParametersStr = string.Join(", ", parameters);
-        var passedParametersStr = string.Join(", ", parameters.Select(parameter => parameter.Split(' ').Last()));
-        return $"public static {fullName} {className}({methodParametersStr}) {{ return new {fullName}({passedParametersStr}); }}";
+        var argsWithTypes = string.Join(", ", parameters.Select(p => p.ToString()));
+        var args = string.Join(", ", parameters.Select(p => p.Identifier.Text));
+        return $"public static {fullTypeName} {methodName}({argsWithTypes}) {{ return new {fullTypeName}({args}); }}";
     }
 }

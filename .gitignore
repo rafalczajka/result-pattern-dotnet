@@ -16,4 +16,5 @@ Desktop.ini
 **/*.Development.json
 **/local.settings.json
 
+playground/
 TODOs.md

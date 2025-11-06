@@ -13,18 +13,18 @@ internal static class ClassDeclarationSyntaxExtensions
         return symbol is null ? node.Identifier.Text : symbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
     }
 
-    public static IEnumerable<IEnumerable<string>> GetConstructorParameters(this ClassDeclarationSyntax node)
+    public static IEnumerable<SeparatedSyntaxList<ParameterSyntax>> GetConstructorParameters(
+        this ClassDeclarationSyntax node)
     {
-        var primaryConstructorParameters = node.ParameterList?.Parameters
-            .Select(parameter => parameter.ToString()) ?? [];
+        var primaryConstructorParameters = node.ParameterList?.Parameters;
 
         var constructorParameters = node.DescendantNodes()
             .OfType<ConstructorDeclarationSyntax>()
-            .Select(constructor => constructor.ParameterList.Parameters.Select(parameter => parameter.ToString()))
-            .Concat([primaryConstructorParameters])
-            .Where(parameters => parameters.Any()); // TODO
+            .Select(constructor => constructor.ParameterList.Parameters);
 
-        return constructorParameters;
+        return primaryConstructorParameters is null
+            ? constructorParameters
+            : constructorParameters.Concat([(SeparatedSyntaxList<ParameterSyntax>)primaryConstructorParameters]);
     }
 
     public static bool IsErrorType(this ClassDeclarationSyntax node)
