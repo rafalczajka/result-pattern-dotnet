@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using PxBunny.Result.Generator.Extensions;
 
@@ -59,18 +60,27 @@ internal sealed class ErrorsGenerator : IIncrementalGenerator
 
         return string.Join("\n\n", list.Select(node =>
         {
+            var isFileScoped = node.Modifiers.Any(m => m.IsKind(SyntaxKind.FileKeyword));
+
+            if (isFileScoped) return null;
+
             var fullName = node.GetFullName(compilation.GetSemanticModel(node.SyntaxTree));
             var className = node.Identifier.Text;
             var parameters = node.GetConstructorParameters();
-            var methods = parameters.Select(p => GenerateMethod(fullName, className, p));
+            var accessModifier = node.Modifiers.Any(m => m.IsKind(SyntaxKind.InternalKeyword)) ? "internal" : "public";
+            var methods = parameters.Select(p => GenerateMethod(fullName, className, accessModifier, p));
             return string.Join("\n\n", methods);
-        }));
+        }).Where(str => !string.IsNullOrWhiteSpace(str)));
     }
 
-    private static string GenerateMethod(string fullTypeName, string methodName, SeparatedSyntaxList<ParameterSyntax> parameters)
+    private static string GenerateMethod(
+        string fullTypeName,
+        string methodName,
+        string accessModifier,
+        SeparatedSyntaxList<ParameterSyntax> parameters)
     {
         var argsWithTypes = string.Join(", ", parameters.Select(p => p.ToString()));
         var args = string.Join(", ", parameters.Select(p => p.Identifier.Text));
-        return $"public static {fullTypeName} {methodName}({argsWithTypes}) {{ return new {fullTypeName}({args}); }}";
+        return $"{accessModifier} static {fullTypeName} {methodName}({argsWithTypes}) {{ return new {fullTypeName}({args}); }}";
     }
 }

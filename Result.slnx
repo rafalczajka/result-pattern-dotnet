@@ -19,4 +19,5 @@
     <Project Path="src\Result\Result.csproj" />
     <File Path="src\Directory.Build.props" />
   </Folder>
+  <!-- <Project Path="playground\Playground.csproj" /> -->
 </Solution>
