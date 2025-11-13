@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace PxBunny.Result.Internal;
+namespace PxBunny.Result;
 
 [EditorBrowsable(EditorBrowsableState.Never)]
 public abstract class ResultBase<TData>

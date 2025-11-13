@@ -1,5 +1,4 @@
 ﻿using System;
-using PxBunny.Result.Internal;
 
 namespace PxBunny.Result;
 
