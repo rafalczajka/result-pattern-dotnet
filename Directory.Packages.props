@@ -5,8 +5,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.13.0" />
-    <PackageVersion Include="PxBunny.Result" Version="0.0.0" />
-    <PackageVersion Include="PxBunny.Result.Generator" Version="0.0.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" />
+    <PackageVersion Include="PxBunny.Result" Version="0.0.1" />
+    <PackageVersion Include="PxBunny.Result.Generator" Version="0.0.2" />
   </ItemGroup>
 </Project>
