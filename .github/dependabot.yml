@@ -1,0 +1,29 @@
+version: 2
+
+registries:
+  github-packages:
+    type: nuget-feed
+    url: https://nuget.pkg.github.com/pxbunny/index.json
+    username: pxbunny
+    password: ${{secrets.DEPENDABOT_GITHUB_PACKAGES_TOKEN}}
+
+updates:
+  - package-ecosystem: nuget
+    directory: /
+    registries:
+      - github-packages
+    schedule:
+      interval: monthly
+    groups:
+      nuget:
+        patterns:
+          - "*"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      github-actions:
+        patterns:
+          - "*"
